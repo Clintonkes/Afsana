@@ -64,7 +64,7 @@ export default function ContactSection() {
   };
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText("afsanaconsultllc@gmail.com");
+    await navigator.clipboard.writeText("afsanaconsult@proton.me");
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), 2000);
   };
@@ -282,7 +282,7 @@ export default function ContactSection() {
               className="flex items-center gap-2 group"
             >
               <span className="font-mono text-alabaster/80 text-sm group-hover:text-amber transition-colors duration-300">
-                afsanaconsultllc@gmail.com
+                afsanaconsult@proton.me
               </span>
               {emailCopied ? (
                 <Check className="w-3 h-3 text-amber" />

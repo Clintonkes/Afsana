@@ -10,8 +10,9 @@ from app.database import Base
 
 class BookingStatus(str, enum.Enum):
     pending = "pending"
-    confirmed = "confirmed"
-    cancelled = "cancelled"
+    approved = "approved"
+    declined = "declined"
+    completed = "completed"
 
 
 class AdminUser(Base):
@@ -39,6 +40,7 @@ class Booking(Base):
         Enum(BookingStatus, native_enum=False), default=BookingStatus.pending
     )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
 
 class ContactMessage(Base):

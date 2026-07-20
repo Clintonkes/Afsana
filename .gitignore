@@ -1,7 +1,9 @@
 
-#env
+# Environment variables / secrets
 .env
 .env.*
+.env.local
+.env.*.local
 
 # Logs
 /logs
@@ -12,11 +14,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
 *.local
 
+backend/set_admin.py
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -28,17 +32,25 @@ dist-ssr
 *.sln
 *.sw?
 
-.env
+# Vite
 .vite
 base44/.app.jsonc
 
 # Python backend
 backend/.venv
+venv/
 __pycache__/
 *.pyc
+*.pyo
 backend/dev.db
 *.db
+
+# Uploads / media
+backend/uploads/
 
 # Claude Code local state
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+
+# OS files
+Thumbs.db

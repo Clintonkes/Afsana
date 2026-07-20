@@ -17,6 +17,9 @@ class Settings(BaseSettings):
 
     cors_origins: str = "http://localhost:5173"
 
+    resend_api_key: str = ""
+    email_from: str = "Afsana Consult <onboarding@resend.dev>"
+
     # Checked in order; later files override earlier ones. The project's .env
     # lives at the repo root, but backend/.env is also honored if present.
     model_config = SettingsConfigDict(

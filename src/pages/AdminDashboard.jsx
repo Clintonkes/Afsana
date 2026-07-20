@@ -24,8 +24,9 @@ import { useAdminAuth } from "@/lib/AdminAuthContext";
 
 const STATUS_VARIANT = {
   pending: "outline",
-  confirmed: "default",
-  cancelled: "destructive",
+  approved: "default",
+  declined: "destructive",
+  completed: "secondary",
 };
 
 function BookingsTab() {
@@ -55,6 +56,7 @@ function BookingsTab() {
             <TableHead className="text-alabaster/50">Preferred</TableHead>
             <TableHead className="text-alabaster/50">Challenges</TableHead>
             <TableHead className="text-alabaster/50">Message</TableHead>
+            <TableHead className="text-alabaster/50">Submitted</TableHead>
             <TableHead className="text-alabaster/50">Status</TableHead>
           </TableRow>
         </TableHeader>
@@ -82,6 +84,21 @@ function BookingsTab() {
               <TableCell className="text-alabaster/60 text-sm max-w-[240px] align-top">
                 {booking.message || "—"}
               </TableCell>
+              <TableCell className="text-alabaster/50 text-xs align-top whitespace-nowrap">
+                {new Date(booking.created_at).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                {booking.updated_at && booking.updated_at !== booking.created_at && (
+                  <div className="text-alabaster/30 mt-0.5">
+                    updated {new Date(booking.updated_at).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </div>
+                )}
+              </TableCell>
               <TableCell className="align-top">
                 <Select
                   value={booking.status}
@@ -94,8 +111,9 @@ function BookingsTab() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="confirmed">Confirmed</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    <SelectItem value="approved">Approved</SelectItem>
+                    <SelectItem value="declined">Declined</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
                   </SelectContent>
                 </Select>
               </TableCell>

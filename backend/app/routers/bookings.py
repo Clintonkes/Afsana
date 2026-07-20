@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.deps import get_current_admin, get_db
+from app.email import send_booking_confirmation, send_booking_status_update
 from app.models import AdminUser, Booking
 from app.schemas import BookingCreate, BookingResponse, BookingUpdate
 
@@ -14,6 +15,7 @@ def create_booking(payload: BookingCreate, db: Session = Depends(get_db)):
     db.add(booking)
     db.commit()
     db.refresh(booking)
+    send_booking_confirmation(booking)
     return booking
 
 
@@ -36,7 +38,12 @@ def update_booking(
     if booking is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
 
+    old_status = str(booking.status)
     booking.status = payload.status
     db.commit()
     db.refresh(booking)
+
+    if old_status != str(booking.status):
+        send_booking_status_update(booking, old_status)
+
     return booking

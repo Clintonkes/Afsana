@@ -51,6 +51,7 @@ class BookingResponse(BaseModel):
     message: str | None
     status: BookingStatus
     created_at: datetime
+    updated_at: datetime | None = None
 
 
 class ContactCreate(BaseModel):

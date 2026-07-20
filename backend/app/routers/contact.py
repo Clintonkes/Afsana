@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.deps import get_current_admin, get_db
+from app.email import send_contact_notification
 from app.models import AdminUser, ContactMessage
 from app.schemas import ContactCreate, ContactResponse, ContactUpdate
 
@@ -14,6 +15,7 @@ def create_contact_message(payload: ContactCreate, db: Session = Depends(get_db)
     db.add(message)
     db.commit()
     db.refresh(message)
+    send_contact_notification(message)
     return message
 
 

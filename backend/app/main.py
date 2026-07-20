@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import REPO_ROOT, settings
-from app.database import Base, SessionLocal, engine
+from app.database import Base, SessionLocal, engine, with_db_retry
 from app.models import AdminUser
 from app.routers import auth, bookings, contact
 from app.security import hash_password
@@ -46,7 +46,7 @@ if FRONTEND_DIST.is_dir():
 
 @app.on_event("startup")
 def on_startup() -> None:
-    Base.metadata.create_all(bind=engine)
+    with_db_retry(lambda: Base.metadata.create_all(bind=engine))
     _seed_admin()
 
 
