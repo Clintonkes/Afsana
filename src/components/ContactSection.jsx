@@ -17,6 +17,31 @@ const CHALLENGES = [
   "Leadership Development"
 ];
 
+function getTodayDateString() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+const TIME_SLOTS = (() => {
+  const slots = [];
+  for (let hour = 9; hour <= 17; hour++) {
+    for (const minute of [0, 30]) {
+      if (hour === 17 && minute === 30) continue;
+      const value = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+      const period = hour >= 12 ? "PM" : "AM";
+      const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+      const label = `${hour12}:${String(minute).padStart(2, "0")} ${period}`;
+      slots.push({ value, label });
+    }
+  }
+  return slots;
+})();
+
+const TODAY_STR = getTodayDateString();
+
 export default function ContactSection() {
   const [selected, setSelected] = useState([]);
   const [name, setName] = useState("");
@@ -38,7 +63,7 @@ export default function ContactSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selected.length || !name || !email || !preferredDate) return;
+    if (!selected.length || !name || !email || !preferredDate || !preferredTime || !message.trim()) return;
 
     setError("");
     setSubmitting(true);
@@ -50,9 +75,9 @@ export default function ContactSection() {
           email,
           phone: phone || undefined,
           preferred_date: preferredDate,
-          preferred_time: preferredTime || undefined,
+          preferred_time: preferredTime,
           challenges: selected,
-          message: message || undefined,
+          message,
         },
       });
       setSubmitted(true);
@@ -162,6 +187,7 @@ export default function ContactSection() {
                         <input
                           type="date"
                           value={preferredDate}
+                          min={TODAY_STR}
                           onChange={(e) => setPreferredDate(e.target.value)}
                           className="w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
                           required
@@ -169,28 +195,38 @@ export default function ContactSection() {
                       </div>
                       <div>
                         <label className="block font-mono text-alabaster/30 text-xs mb-2">
-                          Preferred Time (optional)
+                          Preferred Time
                         </label>
-                        <input
-                          type="time"
+                        <select
                           value={preferredTime}
                           onChange={(e) => setPreferredTime(e.target.value)}
-                          className="w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
-                        />
+                          className="w-full bg-transparent border-b border-white/10 pb-3 text-silica text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
+                          required
+                        >
+                          <option value="" disabled className="bg-obsidian text-alabaster/40">
+                            Select a time
+                          </option>
+                          {TIME_SLOTS.map((slot) => (
+                            <option key={slot.value} value={slot.value} className="bg-obsidian text-silica">
+                              {slot.label}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
                     <textarea
-                      placeholder="Tell us more about your challenges (optional)"
+                      placeholder="Tell us about your challenges"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       rows={3}
                       className="w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 font-heading text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 resize-none"
+                      required
                     />
                   </div>
 
                   <button
                     type="submit"
-                    disabled={submitting || !selected.length || !name || !email || !preferredDate}
+                    disabled={submitting || !selected.length || !name || !email || !preferredDate || !preferredTime || !message.trim()}
                     className="flex items-center gap-3 px-8 py-4 bg-amber text-obsidian font-heading font-medium text-sm tracking-wide rounded-full hover:bg-silica transition-colors duration-300 disabled:opacity-30 disabled:hover:bg-amber"
                   >
                     {submitting ? (

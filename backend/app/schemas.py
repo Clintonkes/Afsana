@@ -1,6 +1,6 @@
 from datetime import date, datetime, time
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
 from app.models import BookingStatus
 
@@ -28,9 +28,23 @@ class BookingCreate(BaseModel):
     phone: str | None = None
     company: str | None = None
     preferred_date: date
-    preferred_time: time | None = None
+    preferred_time: time
     challenges: list[str] = []
-    message: str | None = None
+    message: str
+
+    @field_validator("preferred_date")
+    @classmethod
+    def preferred_date_not_in_past(cls, value: date) -> date:
+        if value < date.today():
+            raise ValueError("preferred_date cannot be in the past")
+        return value
+
+    @field_validator("message")
+    @classmethod
+    def message_not_blank(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("message cannot be blank")
+        return value
 
 
 class BookingUpdate(BaseModel):
