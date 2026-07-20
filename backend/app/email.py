@@ -7,6 +7,10 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+
+def _status_value(status) -> str:
+    return status.value if hasattr(status, "value") else str(status)
+
 CONTACT_EMAIL = "afsanaconsult@proton.me"
 CONTACT_PHONE = "+1 (734) 664-2211"
 CONTACT_ADDRESS = "1622 Orchard Dr, Canton, MI 48188-1547"
@@ -121,8 +125,8 @@ def send_booking_confirmation(booking) -> None:
 
     resend.api_key = settings.resend_api_key
 
-    status_label = STATUS_LABELS.get(str(booking.status), str(booking.status).title())
-    status_color = STATUS_COLORS.get(str(booking.status), "#F59E0B")
+    status_label = STATUS_LABELS.get(_status_value(booking.status), _status_value(booking.status).title())
+    status_color = STATUS_COLORS.get(_status_value(booking.status), "#F59E0B")
 
     body = f"""
     <p style="color:rgba(232,224,212,0.7);font-size:14px;line-height:1.7;margin:0 0 20px 0;">
@@ -163,7 +167,7 @@ def send_booking_status_update(booking, old_status: str) -> None:
 
     resend.api_key = settings.resend_api_key
 
-    new_status = str(booking.status)
+    new_status = _status_value(booking.status)
     status_label = STATUS_LABELS.get(new_status, new_status.title())
     status_color = STATUS_COLORS.get(new_status, "#F59E0B")
 

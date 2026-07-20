@@ -38,12 +38,12 @@ def update_booking(
     if booking is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
 
-    old_status = str(booking.status)
+    old_status = booking.status.value
     booking.status = payload.status
     db.commit()
     db.refresh(booking)
 
-    if old_status != str(booking.status):
+    if old_status != booking.status.value:
         send_booking_status_update(booking, old_status)
 
     return booking
