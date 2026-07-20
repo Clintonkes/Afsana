@@ -1,6 +1,17 @@
 import React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -192,10 +203,26 @@ export default function AdminDashboard() {
           </h1>
           {admin?.email && <p className="text-alabaster/40 text-sm mt-1">{admin.email}</p>}
         </div>
-        <Button variant="outline" className="border-white/10 text-alabaster" onClick={logout}>
-          <LogOut className="w-4 h-4 mr-2" />
-          Log out
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="outline" className="border-white/10 text-alabaster">
+              <LogOut className="w-4 h-4 mr-2" />
+              Log out
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Log out of the admin dashboard?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You'll need to log back in with your admin credentials to view bookings and messages again.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={logout}>Log out</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <Tabs defaultValue="bookings">

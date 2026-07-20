@@ -14,7 +14,8 @@ const CHALLENGES = [
   "Organizational Redesign",
   "Market Entry Strategy",
   "Cost Optimization",
-  "Leadership Development"
+  "Leadership Development",
+  "Others"
 ];
 
 function getTodayDateString() {
@@ -86,6 +87,18 @@ export default function ContactSection() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const resetForm = () => {
+    setSelected([]);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setPreferredDate("");
+    setPreferredTime("");
+    setMessage("");
+    setError("");
+    setSubmitted(false);
   };
 
   const copyEmail = async () => {
@@ -255,10 +268,18 @@ export default function ContactSection() {
                 <h3 className="text-silica font-heading text-2xl font-medium mb-3">
                   Diagnostic Initiated
                 </h3>
-                <p className="text-alabaster/60 text-base">
+                <p className="text-alabaster/60 text-base mb-8">
                   Our team will analyze your challenges and respond within 24
                   hours with a preliminary strategic framework.
                 </p>
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="flex items-center gap-3 px-8 py-4 bg-transparent border border-amber/30 text-amber font-heading font-medium text-sm tracking-wide rounded-full hover:bg-amber hover:text-obsidian transition-colors duration-300"
+                >
+                  Submit Another Request
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
               </motion.div>
             )}
           </div>

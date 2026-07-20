@@ -27,13 +27,18 @@ export default function QuickContactForm() {
 
   return (
     <motion.div
-      className="glass-card rounded-lg p-8 mt-12"
+      className="glass-card rounded-lg p-8 mt-12 border border-amber/20"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div className="font-mono text-alabaster/30 text-xs mb-3">QUICK MESSAGE</div>
+      <span className="font-mono text-amber text-xs tracking-widest block mb-3">
+        QUICK MESSAGE
+      </span>
+      <h3 className="text-silica font-heading text-2xl font-medium mb-3">
+        Prefer to just send a message?
+      </h3>
 
       {submitted ? (
         <div className="flex items-center gap-3">
