@@ -192,8 +192,8 @@ export default function ContactSection() {
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 font-heading text-lg focus:outline-none focus:border-amber/40 transition-colors duration-300"
                     />
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="min-w-0">
                         <label className="block font-mono text-alabaster/30 text-xs mb-2">
                           Preferred Date
                         </label>
@@ -202,18 +202,18 @@ export default function ContactSection() {
                           value={preferredDate}
                           min={TODAY_STR}
                           onChange={(e) => setPreferredDate(e.target.value)}
-                          className="w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
+                          className="w-full max-w-full bg-transparent border-b border-white/10 pb-3 text-silica placeholder:text-alabaster/20 text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
                           required
                         />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <label className="block font-mono text-alabaster/30 text-xs mb-2">
                           Preferred Time
                         </label>
                         <select
                           value={preferredTime}
                           onChange={(e) => setPreferredTime(e.target.value)}
-                          className="w-full bg-transparent border-b border-white/10 pb-3 text-silica text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
+                          className="w-full max-w-full bg-transparent border-b border-white/10 pb-3 text-silica text-base focus:outline-none focus:border-amber/40 transition-colors duration-300 [color-scheme:dark]"
                           required
                         >
                           <option value="" disabled className="bg-obsidian text-alabaster/40">
@@ -355,7 +355,9 @@ export default function ContactSection() {
           </div>
         </div>
 
-        <QuickContactForm />
+        <div id="quick-message">
+          <QuickContactForm />
+        </div>
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { label: "Strategy Index", href: "#strategy" },
   { label: "Proof Ledger", href: "#proof" },
   { label: "Diagnostics", href: "#contact" },
+  { label: "Contact", href: "#quick-message" },
 ];
 
 export default function Navigation() {
